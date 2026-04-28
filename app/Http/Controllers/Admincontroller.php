@@ -151,4 +151,8 @@ class Admincontroller extends Controller
                 return redirect('admin-login');
             }      
         }
+        function quizList(){
+
+        }
+            
 }
