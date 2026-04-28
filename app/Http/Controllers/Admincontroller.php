@@ -1,0 +1,127 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+
+use App\Models\Admin;
+use App\Models\Category;
+use App\Models\Quiz;
+use App\Models\Mcq;
+
+//use function Pest\Laravel\session;
+
+class Admincontroller extends Controller
+{
+    // function login(Request $request){
+        // return "admin login";
+    // }
+    function login(Request $request){
+        $validation = $request->validate([
+            "name"=>"required",
+            "password"=>"required",
+        ]);
+        $admin = Admin::where([
+            ['name',"=",$request->name],
+            ['password',"=",$request->password],
+        ])->first();
+        if(!$admin){
+            $validation = $request->validate([
+                "user"=>"required",
+            ],[
+                "user.required"=>"User does not exist"
+            ]);
+        }
+        session::put('admin',$admin);        
+        return redirect('dashboard');
+        //return view('admin',["name"=>$admin->name]);
+        }
+        function dashboard(){
+            $admin = session::get('admin');
+            if($admin) {
+                return view('admin',["name"=>$admin->name]);
+            }else {
+                return redirect('admin-login');
+            }
+            //return view('admin',["name"=>$admin->name]);
+        }
+        function categories(){  
+            $categories = Category::get();
+            $admin = session::get('admin');
+            if($admin) {
+                return view('categories',["name"=>$admin->name,"categories"=>$categories]);
+            }else {
+                return redirect('admin-login');
+            }      
+        }
+        function logout() {
+            session::forget('admin');
+            return redirect('admin-login');
+        }
+        function addCategory(Request $request){
+            $validation = $request->validate([
+                "category"=>"required | min:2 | unique:categories,name"
+            ]);
+            $admin = session::get('admin');
+            $category = new Category();
+            $category->name=$request->category;
+            $category->creator=$admin->name;
+            if($category->save()) {
+                session::flash('category',"Category " . $request->category . " Added. ");
+            }
+            return redirect("admin-categories");
+        }
+        function deleteCategory($id){
+            $isdeleted = Category::find($id)->delete();
+            if($isdeleted){
+                session::flash('category',"Category Deleted.");
+                return redirect("admin-categories");
+            }
+        }
+        function addQuiz(){
+            $admin = session::get('admin');
+            $categories = Category::get();
+            if($admin) {
+                $quizName=request('quiz');                            
+                $category_id=request('category_id');
+                if($quizName && $category_id && !session::has('quizDetails')){
+                    $quiz= new Quiz();
+                    $quiz->name=$quizName;
+                    $quiz->category_id=$category_id;
+                    if($quiz->save()){
+                        session::put('quizDetails',$quiz);
+                    }
+                }
+                return view('add-quiz',["name"=>$admin->name,"categories"=>$categories]);
+            }else {
+                return redirect('admin-login');
+            }      
+            //return view('add-quiz');
+        }
+        function addMCQs(Request $request){
+
+            $mcq = new Mcq();
+            $quiz= session::get('quizDetails');
+            $admin= session::get('admin');
+
+            $mcq->question=$request->question;
+            $mcq->a=$request->a;  
+            $mcq->b=$request->b;  
+            $mcq->c=$request->c;  
+            $mcq->d=$request->d;  
+            $mcq->correct_ans=$request->correct_ans;   
+
+            $mcq->admin_id=$admin->id;
+            $mcq->quiz_id=$quiz->id;
+            $mcq->category_id=$quiz->category_id;
+            if($mcq->save()){
+                if($request->submit=="add-more"){
+                    return redirect(url()->previous());
+                }else{
+                session::forget('quizDetails');
+                return redirect("/admin-categories"); 
+                }
+            }
+        }
+}
