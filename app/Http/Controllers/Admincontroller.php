@@ -84,6 +84,7 @@ class Admincontroller extends Controller
         function addQuiz(){
             $admin = session::get('admin');
             $categories = Category::get();
+            $totalMCQs=0;
             if($admin) {
                 $quizName=request('quiz');                            
                 $category_id=request('category_id');
@@ -94,8 +95,11 @@ class Admincontroller extends Controller
                     if($quiz->save()){
                         session::put('quizDetails',$quiz);
                     }
+                }else{
+                    $quiz = session::get('quizDetails');
+                    $totalMCQs = $quiz && Mcq::where('quiz_id',$quiz->id)->count();
                 }
-                return view('add-quiz',["name"=>$admin->name,"categories"=>$categories]);
+                return view('add-quiz',["name"=>$admin->name,"categories"=>$categories,"totalMCQs"=>$totalMCQs]);
             }else {
                 return redirect('admin-login');
             }      
@@ -137,5 +141,14 @@ class Admincontroller extends Controller
         function endQuiz(){
             session::forget('quizDetails');
                  return redirect("/admin-categories");
+        }
+        function showQuiz($id){
+            $admin = session::get('admin');
+            $mcqs = Mcq::where('quiz_id',$id)->get();
+            if($admin) {
+                return view('show-quiz',["name"=>$admin->name,"mcqs"=>$mcqs]);
+            }else {
+                return redirect('admin-login');
+            }      
         }
 }
