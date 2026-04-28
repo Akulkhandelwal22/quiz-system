@@ -10,6 +10,8 @@ use App\Models\Category;
 use App\Models\Quiz;
 use App\Models\Mcq;
 
+use function Pest\Laravel\session;
+
 //use function Pest\Laravel\session;
 
 class Admincontroller extends Controller
@@ -100,6 +102,14 @@ class Admincontroller extends Controller
             //return view('add-quiz');
         }
         function addMCQs(Request $request){
+            $request->validate([
+                "question"=>"required | min:5",
+                "a"=>"required",
+                "b"=>"required",
+                "c"=>"required",
+                "d"=>"required",
+                "correct_ans"=>"required",
+            ]);
 
             $mcq = new Mcq();
             $quiz= session::get('quizDetails');
@@ -123,5 +133,9 @@ class Admincontroller extends Controller
                 return redirect("/admin-categories"); 
                 }
             }
+        }
+        function endQuiz(){
+            session::forget('quizDetails');
+                 return redirect("/admin-categories");
         }
 }
