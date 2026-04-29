@@ -19,7 +19,6 @@
                     <li class="w-30">Quiz Id</li>
                     <li class="w-140">Name</li>
                     <li class="w-30">Action</li>
-
                 </ul>
             </li>
 
