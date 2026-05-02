@@ -22,6 +22,13 @@ class Usercontroller extends Controller
         $quizCount = Mcq::where('quiz_id',$id)->count();
         $quizName = $name;
         return view('start-quiz',['quizName'=>$quizName,'quizCount'=>$quizCount]);
-
+    }
+    function userSignup(Request $request){
+        $request->validate([
+                "name"=>"required | min:3",
+                "email"=>"required | email:3",
+                "password"=>"required | confirmed",
+                // "cpassword"=>"required",
+        ]);
     }
 }

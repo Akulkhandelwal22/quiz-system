@@ -7,7 +7,8 @@ use App\Http\Controllers\Usercontroller;
 Route::get('/',[Usercontroller::class,'welcome']);
 Route::get('user-quiz-list/{id}/{category}',[Usercontroller::class,'userQuizList']);
 Route::get('start-quiz/{id}/{name}',[Usercontroller::class,'startQuiz']);
-
+Route::view('user-signup','user-signup');
+Route::post('user-signup',[Usercontroller::class,'userSignup']);
 
 
 
