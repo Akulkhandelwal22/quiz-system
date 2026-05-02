@@ -9,6 +9,11 @@ Route::get('user-quiz-list/{id}/{category}',[Usercontroller::class,'userQuizList
 Route::get('start-quiz/{id}/{name}',[Usercontroller::class,'startQuiz']);
 Route::view('user-signup','user-signup');
 Route::post('user-signup',[Usercontroller::class,'userSignup']);
+Route::get('user-logout',[Usercontroller::class,'userLogout']);
+Route::get('user-signup-quiz',[Usercontroller::class,'userSignupQuiz']);
+Route::view('user-login','user-login');
+Route::post('user-login',[Usercontroller::class,'userLogin']);
+Route::get('user-login-quiz',[Usercontroller::class,'userLoginQuiz']);
 
 
 
