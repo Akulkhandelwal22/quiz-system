@@ -16,7 +16,7 @@
     <h1 class="text-4xl font-bold text-green-900 p-5" >Check Your Skills</h1>
     <div class="w-full max-w-md">
       <div class="relative">
-       <form action="search-quiz" method="get">
+       <form action="quiz-search" method="get">
        <input class="w-full px-4 py-3 text-gray-700 border border-gray-300
         rounded-2xl shadow" type="text" name="search"  placeholder="Search quiz..." />
         <button class="absolute right-2 top-3">
