@@ -14,26 +14,30 @@ Route::get('user-signup-quiz',[Usercontroller::class,'userSignupQuiz']);
 Route::view('user-login','user-login');
 Route::post('user-login',[Usercontroller::class,'userLogin']);
 Route::get('user-login-quiz',[Usercontroller::class,'userLoginQuiz']);
-Route::get('mcq/{id}/{name}',[Usercontroller::class,'mcq']);
-Route::get('submit-next/{id}',[Usercontroller::class,'submitAndNext']);
 
+Route::middleware('CheckUserAuth')->group(function(){
+    Route::get('mcq/{id}/{name}',[Usercontroller::class,'mcq']);
+    Route::post('submit-next/{id}',[Usercontroller::class,'submitAndNext']);
+    Route::get('user-details',[Usercontroller::class,'userDetails']);
 
+});
 
 
 // <------------------------------------------------------------------------>
 
 Route::view('admin-login','admin-login');
-
 Route::post('admin-login',[Admincontroller::class,'login']);
 
-Route::get('dashboard',[Admincontroller::class,'dashboard']);
-Route::get('admin-categories',[Admincontroller::class,'categories']);
-Route::get('admin-logout',[Admincontroller::class,'logout']);
-Route::post('add-category',[Admincontroller::class,'addCategory']);
-Route::get('category/delete/{id}',[Admincontroller::class,'deleteCategory']);
-Route::get('add-quiz',[Admincontroller::class,'addQuiz']);
-Route::post('add-mcqs',[Admincontroller::class,'addMCQs']);
-Route::get('end-quiz',[Admincontroller::class,'endQuiz']);
-Route::get('show-quiz/{id}/{quizName}',[Admincontroller::class,'showQuiz']);
-Route::get('quiz-list/{id}/{category}',[Admincontroller::class,'quizList']);
+Route::middleware('CheckAdminAuth')->group(function(){
+    Route::get('dashboard',[Admincontroller::class,'dashboard']);
+    Route::get('admin-categories',[Admincontroller::class,'categories']);
+    Route::get('admin-logout',[Admincontroller::class,'logout']);
+    Route::post('add-category',[Admincontroller::class,'addCategory']);
+    Route::get('category/delete/{id}',[Admincontroller::class,'deleteCategory']);
+    Route::get('add-quiz',[Admincontroller::class,'addQuiz']);
+    Route::post('add-mcqs',[Admincontroller::class,'addMCQs']);
+    Route::get('end-quiz',[Admincontroller::class,'endQuiz']);
+    Route::get('show-quiz/{id}/{quizName}',[Admincontroller::class,'showQuiz']);
+    Route::get('quiz-list/{id}/{category}',[Admincontroller::class,'quizList']);
 
+});

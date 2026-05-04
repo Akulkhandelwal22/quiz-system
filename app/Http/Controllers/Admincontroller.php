@@ -46,7 +46,6 @@ class Admincontroller extends Controller
             }else {
                 return redirect('admin-login');
             }
-            //return view('admin',["name"=>$admin->name]);
         }
         function categories(){  
             $categories = Category::get();
