@@ -7,11 +7,27 @@ use App\Http\Controllers\Usercontroller;
 Route::get('/',[Usercontroller::class,'welcome']);
 Route::get('user-quiz-list/{id}/{category}',[Usercontroller::class,'userQuizList']);
 Route::get('start-quiz/{id}/{name}',[Usercontroller::class,'startQuiz']);
-Route::view('user-signup','user-signup');
+//Route::view('user-signup','user-signup');
 Route::post('user-signup',[Usercontroller::class,'userSignup']);
 Route::get('user-logout',[Usercontroller::class,'userLogout']);
 Route::get('user-signup-quiz',[Usercontroller::class,'userSignupQuiz']);
-Route::view('user-login','user-login');
+
+Route::get('user-login',function(){
+    if(!session()->has('user')){
+       return view('user-login');
+    }else{
+        return redirect('/');
+    }
+});
+Route::get('user-signup',function(){
+    if(!session()->has('user')){
+       return view('user-signup');
+    }else{
+        return redirect('/');
+    }
+});
+
+//Route::view('user-login','user-login');
 Route::post('user-login',[Usercontroller::class,'userLogin']);
 Route::get('user-login-quiz',[Usercontroller::class,'userLoginQuiz']);
 Route::get('quiz-search',[Usercontroller::class,'searchQuiz']);

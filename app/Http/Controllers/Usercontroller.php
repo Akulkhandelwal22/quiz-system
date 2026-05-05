@@ -21,11 +21,12 @@ use App\Mail\UserForgotPassword;
 class Usercontroller extends Controller
 {
     public function welcome() {
-        $categories = Category::withCount('quizzes')->get();
-        return view('welcome', ['categories' => $categories]);
+        $categories = Category::withCount('quizzes')->orderBy('quizzes_count','desc')->take(5)->get();
+        $quizData = Quiz::withCount('Records')->orderBy('records_count','desc')->take(5)->get();
+        return view('welcome', ['categories' => $categories,'quizData'=>$quizData]);
     }
     function userQuizList($id,$category){
-       $quizData = Quiz::withCount('Mcq')->where('category_id',$id)->get();
+        $quizData = Quiz::withCount('Mcq')->where('category_id',$id)->get();
         return view('user-quiz-list',["quizData"=>$quizData,"category"=>$category]);
     }
     function startQuiz($id,$name){
@@ -60,12 +61,12 @@ class Usercontroller extends Controller
             if(Session::has('quiz-url')) {
                 $url = Session::get('quiz-url');
                 Session::forget('quiz-url');
-                return redirect($url);
+                return redirect($url)->with('message-success',"User Registered Successfully, Please check email to verify account");;
             }else {
-            return redirect('/');
+            return redirect('/')->with('message-success',"User Registered Successfully, Please check email to verify account");;
             }
         }
-    }
+    }   
     function userLogout() {
         Session::forget('user');
         return redirect('/');
@@ -82,16 +83,16 @@ class Usercontroller extends Controller
         ]);
         $user = User::where('email', $request->email)->first();
         if(!$user || !Hash::check($request->password,$user->password)) {
-            return "user not Valid";
+            return redirect('user-login')->with('message-error',"User not Valid, Please check email and password");
         }
         if($user){
             Session::put('user',$user);
             if(Session::has('quiz-url')) {
                 $url = Session::get('quiz-url');
                 Session::forget('quiz-url');
-                return redirect($url);
+                return redirect($url)->with('message-success',"Login Successfully");
             }else {
-            return redirect('/');
+            return redirect('/')->with('message-success',"Login Successfully");
             }
         }
         

@@ -2,17 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Home Page</title>
+    <title>Quiz System Home Page</title>
     @vite('resources/css/app.css')
 </head>
 <body>
   <x-user-navbar></x-user-navbar> 
   <div class="flex flex-col min-h-screen items-center bg-gray-100">
-    <!-- @if(session('message-success'))
+    @if(session('message-success'))
     <div>
         <p class=" text-green-500 font-bold">{{session('message-success')}}</p>
     </div>
-    @endif -->
+    @endif 
     <h1 class="text-4xl font-bold text-green-900 p-5" >Check Your Skills</h1>
     <div class="w-full max-w-md">
       <div class="relative">
@@ -56,6 +56,29 @@
             @endforeach
         </ul>
     </div>
+    <div class="w-200">
+        <h1 class="text-2xl text-green-900 text-center my-10">Top Quiz</h1>
+        <ul class="border border-gray-200 mb-15">
+        <li class="p-2 font-bold">
+                <ul class="flex justify-between">
+                    <li class="w-150">Name</li>
+                    <li class="w-50">Action</li>
+                </ul>
+            </li>
+
+            @foreach($quizData as $item)
+            <li class="even:bg-gray-200 p-2">
+                <ul class="flex justify-between">
+                    <li class="w-150">{{$item->name}}</li>
+                    <li class="w-50">
+                        <a href="/start-quiz/{{$item->id}}/{{str_replace(' ','-',$item->name)}}" class="text-green-500 font-bold">Attempt Quiz</a>
+                    </li>
+                </ul>
+            </li>
+            @endforeach
+        </ul>
+    </div>
+
 
 </div>
 <x-footer-user></x-footer-user>

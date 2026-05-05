@@ -10,4 +10,7 @@ class Record extends Model
         return $query->join('quizzes','records.quiz_id',"=","quizzes.id",)
         ->select('quizzes.*','records.*');
     }
+    function quiz(){
+        return $this->belongsTo(Quiz::class);
+    }
 }
