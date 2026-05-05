@@ -25,6 +25,12 @@ class Usercontroller extends Controller
         $quizData = Quiz::withCount('Records')->orderBy('records_count','desc')->take(5)->get();
         return view('welcome', ['categories' => $categories,'quizData'=>$quizData]);
     }
+
+    function categories(){
+        $categories = Category::withCount('quizzes')->orderBy('quizzes_count','desc')->paginate(3);
+        return view('categories-list',['categories'=>$categories]);
+    }
+
     function userQuizList($id,$category){
         $quizData = Quiz::withCount('Mcq')->where('category_id',$id)->get();
         return view('user-quiz-list',["quizData"=>$quizData,"category"=>$category]);
@@ -219,6 +225,13 @@ class Usercontroller extends Controller
             return redirect('user-login')->with('message-success',"New password is set, Please login with new Password");
            }
         }     
+    }
+    function certificate(){
+        $data = [];
+
+        $data['quiz'] = str_replace('-',' ',session::get('currentQuiz')['quizName']);
+        $data['name'] = session::get('user')['name'];
+        return view('certificate',['data'=>$data]);
     }      
 }
 
