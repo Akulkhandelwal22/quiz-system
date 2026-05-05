@@ -15,6 +15,7 @@ use App\Models\User;
 use App\Models\Record;
 use App\Models\MCQ_Record;
 use App\Mail\VerifyUser;
+use App\Mail\UserForgotPassword;
 
 
 class Usercontroller extends Controller
@@ -193,6 +194,31 @@ class Usercontroller extends Controller
         }
         }
     }
+    function userForgotPassword(Request $request){
+        $link = Crypt::encryptString($request->email);
+        $link = url('/user-forgot-password/'.$link);
+        Mail::to($request->email)->send(new UserForgotPassword($link));
+        return redirect('/')->with('message-success',"Please check email to set new password");
+    }
+          
+    function userResetForgotPassword($email){
+        $orgEmail = Crypt::decryptString($email);
+        return view('user-set-forgot-password',['email'=>$orgEmail]);
+    }
+   
+    function userSetForgotPassword(Request $request){
+        $validate = $request->validate([
+          'email'=>'required | email |',
+          'password'=>'required | min:3 | confirmed',
+        ]);
+        $user= User::where('email',$request->email)->first();
+        if($user){
+            $user->password=Hash::make($request->password);
+        if($user->save()){
+            return redirect('user-login')->with('message-success',"New password is set, Please login with new Password");
+           }
+        }     
+    }      
 }
 
   

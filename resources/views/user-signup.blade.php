@@ -15,7 +15,7 @@
         <form action="/user-signup" method="post" class="space-y-4">
             @csrf
             <div>
-                <lable for="" class="text-gray-600 mb-1">User Name</lable>
+                <label for="" class="text-gray-600 mb-1">User Name</label>
                 <input type="text" placeholder="Enter User Name" name="name"
                 class="w-full px-4 py-2 border border-gray-300 rounded-xl"
                 ></input>
@@ -24,7 +24,7 @@
             @enderror 
             </div>
             <div>
-                <lable for="" class="text-gray-600 mb-1">User Email</lable>
+                <label for="" class="text-gray-600 mb-1">User Email</label>
                 <input type="email" placeholder="Enter Email" name="email"
                 class="w-full px-4 py-2 border border-gray-300 rounded-xl"
                 ></input>
@@ -33,7 +33,7 @@
             @enderror 
             </div>
             <div>
-                <lable for="" class="text-gray-600 mb-1">User Password</lable>
+                <label for="" class="text-gray-600 mb-1">User Password</label>
                 <input type="password" placeholder="Enter Password" name="password"
                 class="w-full px-4 py-2 border border-gray-300 rounded-xl"></input>
             @error('password')
@@ -41,7 +41,7 @@
             @enderror 
             </div>
             <div>
-                <lable for="" class="text-gray-600 mb-1">Confirm Password</lable>
+                <label for="" class="text-gray-600 mb-1">Confirm Password</label>
                 <input type="password" placeholder="Confirm Password" name="password_confirmation"
                 class="w-full px-4 py-2 border border-gray-300 rounded-xl"></input>
             </div>

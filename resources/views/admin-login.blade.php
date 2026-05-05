@@ -13,7 +13,7 @@
         <form action="/admin-login" method="post" class="space-y-4">
             @csrf
             <div>
-                <lable for="" class="text-gray-600 mb-1">Admin name</lable>
+                <label for="" class="text-gray-600 mb-1">Admin name</label>
                 <input type="text" placeholder="Enter admin name" name="name"
                 class="w-full px-4 py-2 border border-gray-300 rounded-xl"
                 ></input>
@@ -22,7 +22,7 @@
             @enderror 
             </div>
             <div>
-                <lable for="" class="text-gray-600 mb-1">Admin password</lable>
+                <label for="" class="text-gray-600 mb-1">Admin password</label>
                 <input type="password" placeholder="Enter admin password" name="password"
                 class="w-full px-4 py-2 border border-gray-300 rounded-xl"></input>
             @error('password')
