@@ -28,7 +28,7 @@
         </form>
         </div>
         <div class="w-200">
-            <h1 class="text-2xl text-blue-500">Category List</h1>
+            <h1 class="text-2xl text-blue-500 text-center my-5">Category List</h1>
             <ul class="border border-gray-200">
                 <li class="p-2 font-bold">
                     <ul class="flex justify-between">
@@ -38,10 +38,10 @@
                         <li class="w-30">Action</li>
                     </ul>
                 </li>
-                @foreach($categories as $category)
-                <li class="even:bg-gray-200">
+                @foreach($categories as $key=>$category)
+                <li class="even:bg-gray-200 p-2">
                     <ul class="flex justify-between">
-                        <li class="w-30">{{$category->id}}</li>
+                        <li class="w-30">{{$key+1}}</li>
                         <li class="w-70">{{$category->name}}</li>
                         <li class="w-70">{{$category->creator}}</li>
                         <li class="w-30 flex">

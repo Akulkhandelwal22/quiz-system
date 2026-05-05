@@ -9,6 +9,7 @@ use App\Models\Admin;
 use App\Models\Category;
 use App\Models\Quiz;
 use App\Models\Mcq;
+use App\Models\User;
 
 use function Pest\Laravel\session;
 
@@ -16,9 +17,6 @@ use function Pest\Laravel\session;
 
 class Admincontroller extends Controller
 {
-    // function login(Request $request){
-        // return "admin login";
-    // }
     function login(Request $request){
         $validation = $request->validate([
             "name"=>"required",
@@ -37,12 +35,12 @@ class Admincontroller extends Controller
         }
         session::put('admin',$admin);        
         return redirect('dashboard');
-        //return view('admin',["name"=>$admin->name]);
         }
         function dashboard(){
             $admin = session::get('admin');
             if($admin) {
-                return view('admin',["name"=>$admin->name]);
+                $users = User::orderBy('id','desc')->paginate(5);
+                return view('admin',["name"=>$admin->name,'users'=>$users]);
             }else {
                 return redirect('admin-login');
             }

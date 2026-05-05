@@ -21,10 +21,10 @@
                 </ul>
             </li>
 
-            @foreach($quizData as $item)
+            @foreach($quizData as $key=>$item)
             <li class="even:bg-gray-200 p-2">
                 <ul class="flex justify-between">
-                    <li class="w-30">{{$item->id}}</li>
+                    <li class="w-30">{{$key+1}}</li>
                     <li class="w-110">{{$item->name}}</li>
                     <li class="w-30">{{$item->mcq_count}}</li>
                     <li class="w-30">
