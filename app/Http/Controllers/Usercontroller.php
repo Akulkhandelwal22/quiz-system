@@ -28,7 +28,7 @@ class Usercontroller extends Controller
     }
 
     function categories(){
-        $categories = Category::withCount('quizzes')->orderBy('quizzes_count','desc')->paginate(3);
+        $categories = Category::withCount('quizzes')->orderBy('quizzes_count','desc')->paginate(5);
         return view('categories-list',['categories'=>$categories]);
     }
 
