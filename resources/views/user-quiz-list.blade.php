@@ -9,9 +9,7 @@
     <x-user-navbar></x-user-navbar>
  
     <div class="bg-gray-100 flex flex-col items-center min-h-screen pt-5">
-    <h2 class="text-2xl text-center text-green-800 mb-6 font-bold">Category Name: {{str_replace('-',' ',$category)}}
-         <a class="text-yellow-500 text-sm" href="/add-quiz" >Back</a>
-         </h2>
+    <h2 class="text-2xl text-center text-green-800 mb-6 font-bold">Category Name: {{str_replace('-',' ',$category)}}</h2>
     <div class="w-200">
         <ul class="border border-gray-200">
         <li class="p-2 font-bold">
