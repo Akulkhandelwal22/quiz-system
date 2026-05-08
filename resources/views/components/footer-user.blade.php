@@ -3,8 +3,8 @@
 <p>&copy; 2026 All Rights Reserved</p>
 <div class="m-3 space-x-2">
     <a href="">Home</a>
-    <a href="">About</a>
-    <a href="">Contact</a>
+    <a href="/about">About</a>
+    <a href="/contact">Contact</a>
 </div>
 </div>
 </footer>
