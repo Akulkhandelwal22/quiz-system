@@ -157,7 +157,7 @@ class Admincontroller extends Controller
                 return redirect('admin-login');
             }      
         }
-        public function editQuiz($id)
+        function editQuiz($id)
         {
             $admin = Session::get('admin');
             if (!$admin) {
@@ -173,7 +173,7 @@ class Admincontroller extends Controller
                 'totalMCQs'  => $totalMCQs,
             ]);
         }
-        public function updateQuiz(Request $request, $id)
+        function updateQuiz(Request $request, $id)
         {
             $admin = Session::get('admin');
             if (!$admin) {
@@ -190,13 +190,58 @@ class Admincontroller extends Controller
             if ($quiz->save()) {
                 Session::flash('quiz', 'Quiz updated successfully.');
             }
-            // Decide where to go next
             if ($request->action_type === 'add-mcqs') {
-                // prepare quizDetails for existing addMCQs flow
                 Session::put('quizDetails', $quiz);
-                return redirect('add-quiz');      // or whatever page you use to add MCQs
+                return redirect('add-quiz');       
             } else {
-                return redirect('admin-categories'); // or your quiz list page route
+                return redirect('admin-categories'); 
             }
+        }
+        function editMcqsPage($quiz_id){
+            $admin = Session::get('admin');
+            if (!$admin) {
+                return redirect('admin-login');
+            }
+        
+            $quiz = Quiz::findOrFail($quiz_id);
+            $mcqs = Mcq::where('quiz_id', $quiz_id)->get();
+        
+            return view('edit-mcqs', [
+                'name' => $admin->name,
+                'quiz' => $quiz,
+                'mcqs' => $mcqs,
+            ]);
+        }
+        function updateMcqs(Request $request, $quiz_id){
+            $admin = Session::get('admin');
+            if (!$admin) {
+                return redirect('admin-login');
+            }
+            $request->validate([
+                'mcqs'                   => 'required|array|min:1',
+                'mcqs.*.id'              => 'required|integer|exists:mcqs,id',
+                'mcqs.*.question'        => 'required|string|min:5',
+                'mcqs.*.a'               => 'required|string',
+                'mcqs.*.b'               => 'required|string',
+                'mcqs.*.c'               => 'required|string',
+                'mcqs.*.d'               => 'required|string',
+                'mcqs.*.correct_ans'     => 'required|in:a,b,c,d',
+            ]);
+            foreach ($request->mcqs as $data) {
+                $mcq = Mcq::where('quiz_id', $quiz_id)
+                          ->where('id', $data['id'])
+                          ->first();
+                if ($mcq) {
+                    $mcq->question    = $data['question'];
+                    $mcq->a           = $data['a'];
+                    $mcq->b           = $data['b'];
+                    $mcq->c           = $data['c'];
+                    $mcq->d           = $data['d'];
+                    $mcq->correct_ans = $data['correct_ans'];
+                    $mcq->save();
+                }
+            }
+            Session::flash('mcqs', 'MCQs updated successfully.');
+            return redirect()->back();
         }
 }

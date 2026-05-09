@@ -58,8 +58,6 @@ Route::middleware('CheckUserAuth')->group(function(){
 
 Route::view('admin-login','admin-login');
 Route::post('admin-login',[Admincontroller::class,'login']);
-Route::get('edit-quiz/{id}', [Admincontroller::class, 'editQuiz']);
-Route::post('update-quiz/{id}', [Admincontroller::class, 'updateQuiz']);
 
 Route::middleware('CheckAdminAuth')->group(function(){
     Route::get('dashboard',[Admincontroller::class,'dashboard']);
@@ -72,4 +70,8 @@ Route::middleware('CheckAdminAuth')->group(function(){
     Route::get('end-quiz',[Admincontroller::class,'endQuiz']);
     Route::get('show-quiz/{id}/{quizName}',[Admincontroller::class,'showQuiz']);
     Route::get('quiz-list/{id}/{category}',[Admincontroller::class,'quizList']);
+    Route::get('edit-quiz/{id}', [Admincontroller::class, 'editQuiz']);
+    Route::post('update-quiz/{id}', [Admincontroller::class, 'updateQuiz']);
+    Route::get('edit-mcqs/{quiz_id}', [Admincontroller::class, 'editMcqsPage']);
+    Route::post('update-mcqs/{quiz_id}', [Admincontroller::class, 'updateMcqs']);
 });

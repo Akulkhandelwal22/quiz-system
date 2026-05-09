@@ -68,6 +68,12 @@
                     </button>
                 </div>
             </form>
+            <div class="mt-4 space-y-2">
+                <a href="{{ url('edit-mcqs/'.$quiz->id) }}"
+                   class="w-full bg-red-500 block text-center rounded-xl px-4 py-2 text-white">
+                    Edit Existing MCQs
+                </a>
+            </div>
 
             <div class="mt-6 text-sm text-gray-600">
                 Total Questions: {{ $totalMCQs }}
