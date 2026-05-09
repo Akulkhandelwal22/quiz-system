@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Hash;
 
 use App\Models\Admin;
 use App\Models\Category;
@@ -13,28 +14,21 @@ use App\Models\User;
 
 use function Pest\Laravel\session;
 
-//use function Pest\Laravel\session;
-
 class Admincontroller extends Controller
 {
-    function login(Request $request){
-        $validation = $request->validate([
-            "name"=>"required",
-            "password"=>"required",
-        ]);
-        $admin = Admin::where([
-            ['name',"=",$request->name],
-            ['password',"=",$request->password],
-        ])->first();
-        if(!$admin){
-            $validation = $request->validate([
-                "user"=>"required",
-            ],[
-                "user.required"=>"User does not exist"
+        function login(Request $request){
+            $request->validate([
+                'name'=> 'required',
+                'password' => 'required',
             ]);
-        }
-        session::put('admin',$admin);        
-        return redirect('dashboard');
+            $admin = Admin::where('name', $request->name)->first();
+            if (!$admin || !Hash::check($request->password, $admin->password)) {
+                return back()->withErrors([
+                    'user' => 'User does not exist or password is incorrect',
+                ])->withInput($request->except('password'));
+            }
+            Session::put('admin', $admin);
+            return redirect('dashboard');
         }
         function dashboard(){
             $admin = session::get('admin');
