@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admincontroller;
 use App\Http\Controllers\Usercontroller;
+use App\Http\Controllers\Contactcontroller;
+
+Route::post('/contact-send', [ContactController::class, 'store'])->name('contact.send');
 
 Route::get('/',[Usercontroller::class,'welcome']);
 Route::get('user-quiz-list/{id}/{category}',[Usercontroller::class,'userQuizList']);

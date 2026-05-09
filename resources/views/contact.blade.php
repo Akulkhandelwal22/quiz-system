@@ -83,7 +83,7 @@
             <div class="p-10">
                 <h3 class="text-2xl font-bold text-navy mb-6 text-center md:text-left">Send a Message</h3>
                 
-                <form action="#" method="POST" class="space-y-5">
+                <form action="{{route('contact.send')}}" method="Post" class="space-y-5">
                     @csrf
                     <div>
                         <label class="block text-sm font-semibold text-gray-600 mb-2 ml-4">Your Name</label>
