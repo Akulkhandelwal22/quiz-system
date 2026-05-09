@@ -2,15 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Categories Page</title>
+    <title>{{str_replace('-',' ',$quizName)}}</title>
     @vite('resources/css/app.css')
 </head>
 <body>
     <x-navbar  name={{$name}} ></x-navbar>
  
     <div class="bg-gray-100 flex flex-col items-center min-h-screen pt-5">
-    <h2 class="text-2xl text-center text-gray-800 mb-6 ">Quiz Name: {{$quizName}}
-         <a class="text-yellow-500 text-sm" href="/add-quiz" >Back</a>
+    <h2 class="text-2xl text-center text-gray-800 mb-6 ">Quiz Name: {{str_replace('-',' ',$quizName)}}
          </h2>
     <div class="w-200">
         <ul class="border border-gray-200">

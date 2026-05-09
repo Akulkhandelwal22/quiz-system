@@ -54,7 +54,7 @@ Route::middleware('CheckUserAuth')->group(function(){
 });
 
 
-// <------------------------------------------------------------------------>
+// <-------------------------------------------------------------------------------------------------->
 
 Route::view('admin-login','admin-login');
 Route::post('admin-login',[Admincontroller::class,'login']);
