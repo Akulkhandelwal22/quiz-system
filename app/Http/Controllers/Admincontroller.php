@@ -94,7 +94,7 @@ class Admincontroller extends Controller
                     }
                 }else{
                     $quiz = session::get('quizDetails');
-                    $totalMCQs = $quiz && Mcq::where('quiz_id',$quiz->id)->count();
+                    $totalMCQs = $quiz ? Mcq::where('quiz_id',$quiz->id)->count():0;
                 }
                 return view('add-quiz',["name"=>$admin->name,"categories"=>$categories,"totalMCQs"=>$totalMCQs]);
             }else {
@@ -156,5 +156,44 @@ class Admincontroller extends Controller
             }else {
                 return redirect('admin-login');
             }      
-        }  
+        }
+        // function editQuiz($id){
+        //     $admin = Session::get('admin');
+        //     if (!$admin) {
+        //         return redirect('admin-login');
+        //     }     
+        //     $quiz = Quiz::findOrFail($id);
+        //     $categories = Category::get();
+        //     $totalMCQs = Mcq::where('quiz_id', $quiz->id)->count();
+        
+        //     Session::put('quizDetails', $quiz);
+        
+        //     return view('update-quiz', [
+        //         'name'       => $admin->name,
+        //         'categories' => $categories,
+        //         'totalMCQs'  => $totalMCQs,
+        //         'quiz'       => $quiz,
+        //     ]);
+        // }
+        // function updateQuiz(Request $request, $id){
+        //     $admin = Session::get('admin');
+        //     if (!$admin) {
+        //         return redirect('admin-login');
+        //     }
+        
+        //     $request->validate([
+        //         'quiz'        => 'required|min:3',
+        //         'category_id' => 'required|integer',
+        //     ]);
+        
+        //     $quiz = Quiz::findOrFail($id);
+        //     $quiz->name        = $request->quiz;
+        //     $quiz->category_id = $request->category_id;
+        
+        //     if ($quiz->save()) {
+        //         Session::put('quizDetails', $quiz);
+        //         Session::flash('quiz', 'Quiz updated successfully.');
+        //     }        
+        //     return redirect()->back();
+        // }
 }

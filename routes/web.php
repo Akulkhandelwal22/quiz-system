@@ -8,8 +8,6 @@ use App\Http\Controllers\Contactcontroller;
 Route::post('/contact-send', [ContactController::class, 'store'])->name('contact.send');
 
 Route::get('/',[Usercontroller::class,'welcome']);
-Route::get('user-quiz-list/{id}/{category}',[Usercontroller::class,'userQuizList']);
-Route::get('start-quiz/{id}/{name}',[Usercontroller::class,'startQuiz']);
 //Route::view('user-signup','user-signup');
 Route::post('user-signup',[Usercontroller::class,'userSignup']);
 Route::get('user-logout',[Usercontroller::class,'userLogout']);
@@ -50,6 +48,8 @@ Route::middleware('CheckUserAuth')->group(function(){
     Route::get('mcq/{id}/{name}',[Usercontroller::class,'mcq']);
     Route::get('submit-next/{id}',[Usercontroller::class,'submitAndNext']);
     Route::get('user-details',[Usercontroller::class,'userDetails']);
+    Route::get('user-quiz-list/{id}/{category}',[Usercontroller::class,'userQuizList']);
+    Route::get('start-quiz/{id}/{name}',[Usercontroller::class,'startQuiz']);
 
 });
 
@@ -58,6 +58,8 @@ Route::middleware('CheckUserAuth')->group(function(){
 
 Route::view('admin-login','admin-login');
 Route::post('admin-login',[Admincontroller::class,'login']);
+// Route::get('edit-quiz/{id}', [Admincontroller::class, 'editQuiz']);
+// Route::post('update-quiz/{id}', [Admincontroller::class, 'updateQuiz']);
 
 Route::middleware('CheckAdminAuth')->group(function(){
     Route::get('dashboard',[Admincontroller::class,'dashboard']);
@@ -70,5 +72,4 @@ Route::middleware('CheckAdminAuth')->group(function(){
     Route::get('end-quiz',[Admincontroller::class,'endQuiz']);
     Route::get('show-quiz/{id}/{quizName}',[Admincontroller::class,'showQuiz']);
     Route::get('quiz-list/{id}/{category}',[Admincontroller::class,'quizList']);
-
 });
