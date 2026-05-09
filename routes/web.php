@@ -58,8 +58,8 @@ Route::middleware('CheckUserAuth')->group(function(){
 
 Route::view('admin-login','admin-login');
 Route::post('admin-login',[Admincontroller::class,'login']);
-// Route::get('edit-quiz/{id}', [Admincontroller::class, 'editQuiz']);
-// Route::post('update-quiz/{id}', [Admincontroller::class, 'updateQuiz']);
+Route::get('edit-quiz/{id}', [Admincontroller::class, 'editQuiz']);
+Route::post('update-quiz/{id}', [Admincontroller::class, 'updateQuiz']);
 
 Route::middleware('CheckAdminAuth')->group(function(){
     Route::get('dashboard',[Admincontroller::class,'dashboard']);

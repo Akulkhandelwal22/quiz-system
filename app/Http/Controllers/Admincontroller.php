@@ -157,43 +157,46 @@ class Admincontroller extends Controller
                 return redirect('admin-login');
             }      
         }
-        // function editQuiz($id){
-        //     $admin = Session::get('admin');
-        //     if (!$admin) {
-        //         return redirect('admin-login');
-        //     }     
-        //     $quiz = Quiz::findOrFail($id);
-        //     $categories = Category::get();
-        //     $totalMCQs = Mcq::where('quiz_id', $quiz->id)->count();
-        
-        //     Session::put('quizDetails', $quiz);
-        
-        //     return view('update-quiz', [
-        //         'name'       => $admin->name,
-        //         'categories' => $categories,
-        //         'totalMCQs'  => $totalMCQs,
-        //         'quiz'       => $quiz,
-        //     ]);
-        // }
-        // function updateQuiz(Request $request, $id){
-        //     $admin = Session::get('admin');
-        //     if (!$admin) {
-        //         return redirect('admin-login');
-        //     }
-        
-        //     $request->validate([
-        //         'quiz'        => 'required|min:3',
-        //         'category_id' => 'required|integer',
-        //     ]);
-        
-        //     $quiz = Quiz::findOrFail($id);
-        //     $quiz->name        = $request->quiz;
-        //     $quiz->category_id = $request->category_id;
-        
-        //     if ($quiz->save()) {
-        //         Session::put('quizDetails', $quiz);
-        //         Session::flash('quiz', 'Quiz updated successfully.');
-        //     }        
-        //     return redirect()->back();
-        // }
+        public function editQuiz($id)
+        {
+            $admin = Session::get('admin');
+            if (!$admin) {
+                return redirect('admin-login');
+            }
+            $quiz = Quiz::findOrFail($id);
+            $categories = Category::get();
+            $totalMCQs = Mcq::where('quiz_id', $quiz->id)->count();
+            return view('edit-quiz', [
+                'name'       => $admin->name,
+                'quiz'       => $quiz,
+                'categories' => $categories,
+                'totalMCQs'  => $totalMCQs,
+            ]);
+        }
+        public function updateQuiz(Request $request, $id)
+        {
+            $admin = Session::get('admin');
+            if (!$admin) {
+                return redirect('admin-login');
+            }
+            $request->validate([
+                'quiz'        => 'required|min:3',
+                'category_id' => 'required|integer',
+                'action_type' => 'required|in:add-mcqs,back-list',
+            ]);
+            $quiz = Quiz::findOrFail($id);
+            $quiz->name        = $request->quiz;
+            $quiz->category_id = $request->category_id;
+            if ($quiz->save()) {
+                Session::flash('quiz', 'Quiz updated successfully.');
+            }
+            // Decide where to go next
+            if ($request->action_type === 'add-mcqs') {
+                // prepare quizDetails for existing addMCQs flow
+                Session::put('quizDetails', $quiz);
+                return redirect('add-quiz');      // or whatever page you use to add MCQs
+            } else {
+                return redirect('admin-categories'); // or your quiz list page route
+            }
+        }
 }
